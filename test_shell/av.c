@@ -1,6 +1,7 @@
 #include "main.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 
 int main(__attribute__((unused))int ac, char **av)
 {
@@ -11,7 +12,7 @@ int main(__attribute__((unused))int ac, char **av)
 	{
 		write(STDOUT_FILENO, *av, _strlen(*av));
 		/* write(STDOUT_FILENO, ws, 1); */
-		_putchar (*av);
+		/* _putchar (av); */
 		_putchar ('\n');
 		av++;
 	}
