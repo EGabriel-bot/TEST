@@ -7,8 +7,6 @@ char *commander(char* path, char* input)
 	char *command, *temp;
 	char churger[300];
 	char slash[77] = "/";
-	command = malloc(120);
-	temp = malloc(120);
 	dir = tokenizer(path, ":");
 
 	temp = strcat(slash, input);
@@ -18,30 +16,32 @@ char *commander(char* path, char* input)
 	for (i = 0; dir[i] != NULL; i++)
 	{
 		strcpy(churger, dir[i]);
-		command = strcat(churger, temp);
-		printf("%s\n", command);
-
+		command = strcat(churger, temp);	
 		if (stat(command, &info) == 0)
+		{
+			free(dir);
 			return (command);
+		}
 	}
+	free(dir);
 	return (input);
 }
 
-int main(int argc, char* argv[], char* envp[])
-{
-	/* char **test; */
-	char* path = _getenv("PATH", envp);
-	/* test = malloc(sizeof(test)); */
-	char *command = commander(path, argv[1]);
-	/* test[1] = argv[2]; */
+/* int main(int argc, char* argv[], char* envp[]) */
+/* { */
+/* 	/1* char **test; *1/ */
+/* 	char* path = _getenv("PATH", envp); */
+/* 	/1* test = malloc(sizeof(test)); *1/ */
+/* 	char *command = commander(path, argv[1]); */
+/* 	/1* test[1] = argv[2]; *1/ */
 
-	/* if(execve(test[0], test, envp)) */
-	/* { */
-	/* 	perror("execve"); */
-	/* 	exit(EXIT_FAILURE); */
-	/* } */
-	printf("%s\n", command);
-	/* write(1, command, 12); */
-	putchar ('\n');
-	return (0);
-}
+/* 	/1* if(execve(test[0], test, envp)) *1/ */
+/* 	/1* { *1/ */
+/* 	/1* 	perror("execve"); *1/ */
+/* 	/1* 	exit(EXIT_FAILURE); *1/ */
+/* 	/1* } *1/ */
+/* 	printf("%s\n", command); */
+/* 	/1* write(1, command, 12); *1/ */
+/* 	putchar ('\n'); */
+/* 	return (0); */
+/* } */
