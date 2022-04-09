@@ -1,8 +1,8 @@
 #include "main.h"
 
-char* commander(char* path, char* input)
+char *commander(char* path, char* input)
 {
-	char** dir;
+	char **dir;
 	int i;
 	char *command, *temp;
 	char churger[300];
@@ -19,7 +19,7 @@ char* commander(char* path, char* input)
 	{
 		strcpy(churger, dir[i]);
 		command = strcat(churger, temp);
-		/*printf("%s\n", command);*/
+		printf("%s\n", command);
 
 		if (stat(command, &info) == 0)
 			return (command);
@@ -29,11 +29,19 @@ char* commander(char* path, char* input)
 
 int main(int argc, char* argv[], char* envp[])
 {
+	/* char **test; */
 	char* path = _getenv("PATH", envp);
-	char* command = commander(path, argv[1]);
+	/* test = malloc(sizeof(test)); */
+	char *command = commander(path, argv[1]);
+	/* test[1] = argv[2]; */
 
-	/* printf("%s\n", command); */
-	write(1, command, 20);
+	/* if(execve(test[0], test, envp)) */
+	/* { */
+	/* 	perror("execve"); */
+	/* 	exit(EXIT_FAILURE); */
+	/* } */
+	printf("%s\n", command);
+	/* write(1, command, 12); */
 	putchar ('\n');
 	return (0);
 }
