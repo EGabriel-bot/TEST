@@ -8,7 +8,7 @@ char *_getenv(char *name, char *envp[])
 	while (envp[i] != NULL)
 	{
 		buffy = strtok(envp[i],"=");
-		if (_strcmp(buffy, name) == 0)
+		if (strcmp(buffy, name) == 0)
 		{
 			pathy = strtok(NULL, "=");
 			return (pathy);
