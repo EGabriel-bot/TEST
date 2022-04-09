@@ -6,7 +6,7 @@ char *commander(char* path, char* input)
 	int i;
 	char *command, *temp;
 	char churger[300];
-	char slash[77] = "/";
+	char slash[2] = "/";
 	command = malloc(120);
 	temp = malloc(120);
 	dir = tokenizer(path, ":");
