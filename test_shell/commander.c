@@ -1,42 +1,64 @@
 #include "main.h"
 
-char *commander(char* path, char* input)
+
+/**
+ * commander - builds command pathname if it exists
+ * @path: pointer to char (PATH string from environment)
+ * @input: pointer to char (command name string)
+ *
+ * Return: pointer to char (full pathname of file)
+ *
+ * **IMPORTANT NOTE**	Return pointer must be freed
+ */
+char *commander(char *path, char *input)
 {
 	char **dir;
 	int i;
 	char *command, *temp;
-	char churger[300];
-	char slash[77] = "/";
-	dir = tokenizer(path, ":");
-
-	temp = malloc(100);
-	temp = strcat(slash, input);
-	temp = strcat(temp, "\0");
-
 	struct stat info;
 
-	for (i = 1; dir[i] != NULL; i++)
+	dir = tokenizer(path, ":");
+
+	temp = malloc(strlen(input) + 2);
+	temp = strcpy(temp, "/");
+	temp = strcat(temp, input);
+	temp = strcat(temp, "\0");
+
+	command = malloc(1);
+	for (i = 0; dir[i] != NULL; i++)
 	{
-		strcpy(churger, dir[i]);
-		command = strcat(churger, temp);
+		command = realloc(command, strlen(dir[i]) + strlen(temp) + 1);
+		command = strcpy(command, dir[i]);
+		command = strcat(command, temp);
 		if (stat(command, &info) == 0)
 		{
-			free(dir);
+			free(temp);
+			tokenizer_free(dir);
 			return (command);
 		}
 	}
-	free(dir);
+
+	free(temp);
+	tokenizer_free(dir);
 	return (input);
 }
+
 /*
-int main(int argc, char* argv[], char* envp[])
- {
- 	char* path = _getenv("PATH", envp);
+int main(int argc, char *argv[], char *envp[])
+{
+	char *path = _getenv("PATH", envp);
 
- 	char *command = commander(path, argv[1]);
+	char *command = commander(path, argv[1]);
 
-	printf("Main: %s\n", command);
+	(void)argc;
+
+	printf("%s\n", command);
 
 	fflush(NULL);
- 	return (0); 
- }*/
+
+	free(path);
+	free(command);
+
+	return (0);
+}
+*/

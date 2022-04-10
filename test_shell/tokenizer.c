@@ -5,46 +5,49 @@
 /**
  * tokenizer - separates a string into an array of strings using delimiters
  * @string: string to be separated
- *    ***IMPORTANT*** string is destroyed after call to this function
  * @delim: string where each character is a delimiter
  *
- * Return: pointer to pointer to strings
+ * Return: pointer to pointer to strings.
  *
- * note: must free return value each time this program is called
+ * **IMPORTANT NOTE**	Must free return using tokenizer_free() function.
+ *			Normal free() function will cause memory leaks.
  */
 char **tokenizer(char *string, char *delim)
 {
-	char **tokens, *str;
+	char **tokens, *str, *tmp;
 	int i;
 
+	/*create copy of string to prevent corrupting input*/
 	str = malloc(strlen(string) + 1);
 	if (str == NULL)
 	{
 		return (NULL);
 	}
 	str = strcpy(str, string);
+	tmp = str;
 
+	/*create tokens from string*/
 	tokens = malloc(2 * sizeof(tokens));
 	if (tokens == NULL)
 	{
 		return (NULL);
 	}
-	tokens[0] = str;
-	tokens[1] = strtok(str, delim);
-
-	i = 1;
+	tokens[0] = strtok(str, delim);
+	i = 0;
 	while (tokens[i] != NULL)
 	{
 		i++;
-		tokens = realloc(tokens, (i + 1) * sizeof(tokens));
+		tokens = realloc(tokens, (i + 2) * sizeof(tokens));
 		if (tokens == NULL)
 		{
-			free(tokens[0]);
 			free(tokens);
 			return (NULL);
 		}
 		tokens[i] = strtok(NULL, delim);
 	}
+
+	/*Add pointer to copy at end for freeing later*/
+	tokens[i + 1] = tmp;
 
 	return (tokens);
 }
@@ -58,7 +61,14 @@ char **tokenizer(char *string, char *delim)
  */
 void tokenizer_free(char **token)
 {
-	free(token[0]);
+	int i;
+
+	i = 0;
+	while (token[i] != NULL)
+	{
+		i++;
+	}
+	free(token[i + 1]);
 	free(token);
 }
 
@@ -91,5 +101,3 @@ int main(void)
 	return (0);
 }
 */
-
-

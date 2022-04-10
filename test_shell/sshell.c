@@ -13,7 +13,10 @@ int main(__attribute__((unused))int argc,__attribute__((unused)) char *argv[], c
 	size_t i, n;
 	int status;
 	char *path;
-	char *string;
+	char *command_path;
+
+	(void)i;
+	(void)tok;
 
 	while (1)
 	{
@@ -25,14 +28,13 @@ int main(__attribute__((unused))int argc,__attribute__((unused)) char *argv[], c
 		fflush(NULL);
 		path = _getenv("PATH",envp);
 		command = tokenizer(lineptr, " \n");
-		command = command + 1;
-		string = commander(path, command[0]);
-//		write(1, string, 30);
-		pid = fork();
+		command_path = commander(path, command[0]);
+/*		write(1, string, 30);
+*/		pid = fork();
 		if (pid == 0)
 		{
 			_putchar('\n');
-			if (execve(string, command, envp))
+			if (execve(command_path, command, envp))
 			{
 				free(lineptr);
 				perror("execve");
