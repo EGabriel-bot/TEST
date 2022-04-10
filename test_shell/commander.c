@@ -9,14 +9,16 @@ char *commander(char* path, char* input)
 	char slash[77] = "/";
 	dir = tokenizer(path, ":");
 
+	temp = malloc(100);
 	temp = strcat(slash, input);
+	temp = strcat(temp, "\0");
 
 	struct stat info;
 
-	for (i = 0; dir[i] != NULL; i++)
+	for (i = 1; dir[i] != NULL; i++)
 	{
 		strcpy(churger, dir[i]);
-		command = strcat(churger, temp);	
+		command = strcat(churger, temp);
 		if (stat(command, &info) == 0)
 		{
 			free(dir);
@@ -26,22 +28,15 @@ char *commander(char* path, char* input)
 	free(dir);
 	return (input);
 }
+/*
+int main(int argc, char* argv[], char* envp[])
+ {
+ 	char* path = _getenv("PATH", envp);
 
-/* int main(int argc, char* argv[], char* envp[]) */
-/* { */
-/* 	/1* char **test; *1/ */
-/* 	char* path = _getenv("PATH", envp); */
-/* 	/1* test = malloc(sizeof(test)); *1/ */
-/* 	char *command = commander(path, argv[1]); */
-/* 	/1* test[1] = argv[2]; *1/ */
+ 	char *command = commander(path, argv[1]);
 
-/* 	/1* if(execve(test[0], test, envp)) *1/ */
-/* 	/1* { *1/ */
-/* 	/1* 	perror("execve"); *1/ */
-/* 	/1* 	exit(EXIT_FAILURE); *1/ */
-/* 	/1* } *1/ */
-/* 	printf("%s\n", command); */
-/* 	/1* write(1, command, 12); *1/ */
-/* 	putchar ('\n'); */
-/* 	return (0); */
-/* } */
+	printf("Main: %s\n", command);
+
+	fflush(NULL);
+ 	return (0); 
+ }*/

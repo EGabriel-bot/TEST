@@ -1,24 +1,40 @@
 #include "main.h"
 
+/**
+ * _getenv - gets a string variable value from the environment
+ * @name: desired variable name
+ * @envp: inherited environment
+ *
+ * Return: pointer to char (string variable)
+ */
 char *_getenv(char *name, char *envp[])
 {
-	char *buffy, *pathy;
-	int i = 0;
+	char **line, **line_tokens, *var;
+	int i;
 
+	i = 0;
 	while (envp[i] != NULL)
 	{
-		buffy = strtok(envp[i],"=");
-		if (strcmp(buffy, name) == 0)
+		line = tokenizer(envp[i], "=");
+		if (strcmp(line[1], name) == 0)
 		{
-			pathy = strtok(NULL, "=");
-			return (pathy);
+			var = malloc(strlen(line[2]) + 1);
+			var = strcpy(var, line[2]);
+			tokenizer_free(line);
+			return (var);
 		}
+		tokenizer_free(line);
 		i++;
 	}
 }
 
-/* int main (int ac, char *av[], char *envp[]) */
-/* { */
-/* 	printf("Andy, write now\n%s", _getenv("SHELL", envp)); */
-/* 	return (0); */
-/* } */
+
+/*
+int main (int ac, char *av[], char *envp[])
+{
+	char *result = _getenv("PATH", envp);
+ 	printf("%s\n", result);
+	free(result);
+ 	return (0); 
+}
+*/
