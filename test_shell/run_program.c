@@ -14,12 +14,7 @@ int run_program(char *command_path, char **input, char **envp)
 	tmp = fork();
 	if (tmp == 0)
 	{
-		write(1, "\n", 1);
-		if (execve(command_path, input, envp))
-		{
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
+		execve(command_path, input, envp);
 	}
 	if (tmp > 0)
 	{

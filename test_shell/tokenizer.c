@@ -41,6 +41,7 @@ char **tokenizer(char *string, char *delim)
 		if (tokens == NULL)
 		{
 			free(tokens);
+			tokens = NULL;
 			return (NULL);
 		}
 		tokens[i] = strtok(NULL, delim);
@@ -63,13 +64,18 @@ void tokenizer_free(char **token)
 {
 	int i;
 
-	i = 0;
-	while (token[i] != NULL)
+	if (token != NULL)
 	{
-		i++;
+		i = 0;
+		while (token[i] != NULL)
+		{
+			i++;
+		}
+		free(token[i + 1]);
+		token[i + 1] = NULL;
+		free(token);
+		token = NULL;
 	}
-	free(token[i + 1]);
-	free(token);
 }
 
 
@@ -79,25 +85,26 @@ void tokenizer_free(char **token)
  * Return: always 0
  */
 /*
-int main(void)
-{
-	int i;
-	char **word;
-	char *lineptr = NULL;
-	size_t n;
+   int main(void)
+   {
+   int i;
+   char **word;
+   char *lineptr = NULL;
+   size_t n;
 
-	getline(&lineptr, &n, stdin);
+   getline(&lineptr, &n, stdin);
 
-	word = tokenizer(lineptr, " \n");
-	i = 0;
-	while (word[i] != NULL)
-	{
-		printf("%s\n", word[i]);
-		i++;
-	}
+   word = tokenizer(lineptr, " \n");
+   i = 0;
+   while (word[i] != NULL)
+   {
+   printf("%s\n", word[i]);
+   i++;
+   }
 
-	tokenizer_free(word);
-	free(lineptr);
-	return (0);
-}
-*/
+   tokenizer_free(word);
+   free(lineptr);
+   lineptr = NULL;
+   return (0);
+   }
+ */

@@ -33,14 +33,17 @@ char *commander(char *path, char *input)
 		if (stat(command, &info) == 0)
 		{
 			free(temp);
+			temp = NULL;
 			tokenizer_free(dir);
 			return (command);
 		}
 	}
 
 	free(temp);
+	temp = NULL;
 	tokenizer_free(dir);
-	return (input);
+	command = strcpy(command, input);
+	return (command);
 }
 
 /*

@@ -11,13 +11,9 @@ int (*router(char **input, char *command_path))(char*, char**, char**)
 {
 	(void)command_path;
 
-	if(strcmp(input[0], "exit") == 0)
+	if(strcmp(input[0], command_path) == 0)
 	{
-		return (NULL);
-	}
-	else if(strcmp(input[0], "env") == 0)
-	{
-		return (NULL);
+		return (bad_command);
 	}
 	else
 	{

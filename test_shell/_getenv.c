@@ -42,6 +42,7 @@ int main (int ac, char *av[], char *envp[])
 
  	printf("%s\n", result);
 	free(result);
+	result = NULL;
  	return (0); 
 }
 */
