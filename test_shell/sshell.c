@@ -9,7 +9,7 @@
 int main(__attribute__((unused))int argc,__attribute__((unused)) char *argv[], char *envp[])
 {
 	pid_t pid;
-	char *command[16], *tok, *lineptr = NULL;
+	char **command, *tok, *lineptr = NULL;
 	size_t i, n;
 	int status;
 	char *path;
@@ -17,28 +17,37 @@ int main(__attribute__((unused))int argc,__attribute__((unused)) char *argv[], c
 
 	while (1)
 	{
+		lineptr = NULL;
+		tok = NULL;
+		path = NULL;
+		string = NULL;
+		for (i = 0; i <5; i++)
+		{
+			command[i] = NULL;
+		}
+		command = NULL;
+
 		write(1,"JABS$ ", 6);
 		if (getline(&lineptr, &n, stdin) == -1)
 		{
 			break;
 		}
 		path = _getenv("PATH",envp);
-		tok = strtok(lineptr, " \n");
-		string = commander(path, tok);
-		tok = string;
-		for (i = 0; i < 16 && tok != NULL; i++)
-		{
-			command[i] = tok;
-			tok = strtok(NULL, " \n");
-		}
-		command[i] = NULL;
+		command = tokenizer(lineptr, " \n");
+		write(1, "\n", 1);
+		write(1, *command, 100);
+		write(1, "\n", 1);
+		string = commander(path, command[0]);
+		write(1, "n", 1);
+		write(1, string, 100);
+		write(1, "\n", 1);
+
 		pid = fork();
 		if (pid == 0)
 		{
-			write(1, command[0], 30);
-			_putchar('\n');
-			if (execve(command[0], command, envp))
+			if (execve(string, command, envp))
 			{
+				free(command);
 				free(string);
 				perror("execve");
 				exit(EXIT_FAILURE);
@@ -46,10 +55,12 @@ int main(__attribute__((unused))int argc,__attribute__((unused)) char *argv[], c
 		}
 		if (pid > 0)
 		{
+			free(command);
 			wait(&status);
 		}
 	}
 	_putchar('\n');
+	free(command);
 	free(lineptr);
 	exit(status);
 }
